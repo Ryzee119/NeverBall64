@@ -1,0 +1,24 @@
+NEVERBALL_DATA = neverball/data
+OUT_DIR = filesystem
+all:
+	$(foreach f, $(wildcard $(NEVERBALL_DATA)/*/*.jpg), \
+	mkdir -p $(addprefix $(OUT_DIR)/,$(dir $f)); \
+	echo mkdir $(addprefix $(OUT_DIR)/,$(dir $f)); \
+	echo convert $f to $(addsuffix .png, $(basename $f)); \
+	convert $f $(addsuffix .png, $(basename $f)); \
+	)
+
+	$(foreach f, $(wildcard $(NEVERBALL_DATA)/*/*/*.jpg), \
+	mkdir -p $(addprefix $(OUT_DIR)/,$(dir $f)); \
+	echo mkdir $(addprefix $(OUT_DIR)/,$(dir $f)); \
+	echo convert $f to $(addsuffix .png, $(basename $f)); \
+	convert $f $(addsuffix .png, $(basename $f)); \
+	)
+
+	$(foreach f, $(wildcard $(NEVERBALL_DATA)/*/*/*/*.jpg), \
+	mkdir -p $(addprefix $(OUT_DIR)/,$(dir $f)); \
+	echo mkdir $(addprefix $(OUT_DIR)/,$(dir $f)); \
+	echo convert $f to $(addsuffix .png, $(basename $f)); \
+	convert $f $(addsuffix .png, $(basename $f)); \
+	)
+.PHONY: all

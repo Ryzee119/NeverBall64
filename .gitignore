@@ -1,0 +1,10 @@
+.vscode
+.cen64
+.libdragon
+_libdragon
+build
+*.z64
+*.bin
+*.o
+*.d
+_log.t

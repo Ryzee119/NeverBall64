@@ -1,0 +1,181 @@
+SOURCE_DIR = $(CURDIR)
+BUILD_DIR = build
+NEVERBALL_DIR = neverball
+
+VERSION := $(shell cd $(NEVERBALL_DIR); sh scripts/version.sh)
+
+include $(N64_INST)/include/n64.mk
+
+PROG_NAME = neverball64
+N64_ROM_SAVETYPE = sram256k
+N64_ROM_REGIONFREE = true
+
+N64_CFLAGS += -Wno-error #Disable -Werror from n64.mk
+
+CFLAGS += \
+	-Wno-stringop-truncation -Wno-unused-variable -Wno-unused-function \
+	-I$(NEVERBALL_DIR) \
+	-I$(NEVERBALL_DIR)/share \
+	-I$(NEVERBALL_DIR)/ball \
+	-I$(NEVERBALL_DIR)/putt \
+	-In64/SDL -In64 \
+	-Og -DENABLE_NLS=0 \
+
+SRCS = \
+	n64_main.o \
+	n64_sram.o \
+	video.o \
+	audio.o \
+	joy.o \
+
+MAPC_OBJS := \
+	$(NEVERBALL_DIR)/share/vec3.o        \
+	$(NEVERBALL_DIR)/share/solid_base.o  \
+	$(NEVERBALL_DIR)/share/binary.o      \
+	$(NEVERBALL_DIR)/share/log.o         \
+	$(NEVERBALL_DIR)/share/base_config.o \
+	$(NEVERBALL_DIR)/share/common.o      \
+	$(NEVERBALL_DIR)/share/fs_common.o   \
+	$(NEVERBALL_DIR)/share/dir.o         \
+	$(NEVERBALL_DIR)/share/array.o       \
+	$(NEVERBALL_DIR)/share/list.o        \
+	$(NEVERBALL_DIR)/share/mapc.o
+BALL_OBJS := \
+	$(NEVERBALL_DIR)/share/lang.o        \
+	$(NEVERBALL_DIR)/share/st_common.o   \
+	$(NEVERBALL_DIR)/share/vec3.o        \
+	$(NEVERBALL_DIR)/share/solid_base.o  \
+	$(NEVERBALL_DIR)/share/solid_vary.o  \
+	$(NEVERBALL_DIR)/share/solid_draw.o  \
+	$(NEVERBALL_DIR)/share/solid_all.o   \
+	$(NEVERBALL_DIR)/share/mtrl.o        \
+	$(NEVERBALL_DIR)/share/part.o        \
+	$(NEVERBALL_DIR)/share/geom.o        \
+	$(NEVERBALL_DIR)/share/ball.o        \
+	$(NEVERBALL_DIR)/share/gui.o         \
+	$(NEVERBALL_DIR)/share/font.o        \
+	$(NEVERBALL_DIR)/share/theme.o       \
+	$(NEVERBALL_DIR)/share/base_config.o \
+	$(NEVERBALL_DIR)/share/config.o      \
+	$(NEVERBALL_DIR)/share/glext.o       \
+	$(NEVERBALL_DIR)/share/binary.o      \
+	$(NEVERBALL_DIR)/share/state.o       \
+	$(NEVERBALL_DIR)/share/text.o        \
+	$(NEVERBALL_DIR)/share/common.o      \
+	$(NEVERBALL_DIR)/share/list.o        \
+	$(NEVERBALL_DIR)/share/queue.o       \
+	$(NEVERBALL_DIR)/share/cmd.o         \
+	$(NEVERBALL_DIR)/share/array.o       \
+	$(NEVERBALL_DIR)/share/dir.o         \
+	$(NEVERBALL_DIR)/share/fbo.o         \
+	$(NEVERBALL_DIR)/share/glsl.o        \
+	$(NEVERBALL_DIR)/share/fs_common.o   \
+	$(NEVERBALL_DIR)/share/fs_ov.o       \
+	$(NEVERBALL_DIR)/share/log.o         \
+	$(NEVERBALL_DIR)/share/package.o     \
+	$(NEVERBALL_DIR)/share/base_image.o  \
+	$(NEVERBALL_DIR)/ball/hud.o          \
+	$(NEVERBALL_DIR)/ball/game_common.o  \
+	$(NEVERBALL_DIR)/ball/game_client.o  \
+	$(NEVERBALL_DIR)/ball/game_server.o  \
+	$(NEVERBALL_DIR)/ball/game_proxy.o   \
+	$(NEVERBALL_DIR)/ball/game_draw.o    \
+	$(NEVERBALL_DIR)/ball/score.o        \
+	$(NEVERBALL_DIR)/ball/level.o        \
+	$(NEVERBALL_DIR)/ball/progress.o     \
+	$(NEVERBALL_DIR)/ball/set.o          \
+	$(NEVERBALL_DIR)/ball/demo.o         \
+	$(NEVERBALL_DIR)/ball/demo_dir.o     \
+	$(NEVERBALL_DIR)/ball/util.o         \
+	$(NEVERBALL_DIR)/ball/st_conf.o      \
+	$(NEVERBALL_DIR)/ball/st_demo.o      \
+	$(NEVERBALL_DIR)/ball/st_save.o      \
+	$(NEVERBALL_DIR)/ball/st_goal.o      \
+	$(NEVERBALL_DIR)/ball/st_fail.o      \
+	$(NEVERBALL_DIR)/ball/st_done.o      \
+	$(NEVERBALL_DIR)/ball/st_level.o     \
+	$(NEVERBALL_DIR)/ball/st_over.o      \
+	$(NEVERBALL_DIR)/ball/st_play.o      \
+	$(NEVERBALL_DIR)/ball/st_set.o       \
+	$(NEVERBALL_DIR)/ball/st_start.o     \
+	$(NEVERBALL_DIR)/ball/st_title.o     \
+	$(NEVERBALL_DIR)/ball/st_help.o      \
+	$(NEVERBALL_DIR)/ball/st_name.o      \
+	$(NEVERBALL_DIR)/ball/st_shared.o    \
+	$(NEVERBALL_DIR)/ball/st_pause.o     \
+	$(NEVERBALL_DIR)/ball/st_ball.o      \
+	$(NEVERBALL_DIR)/share/hmd_null.o    \
+	$(NEVERBALL_DIR)/share/solid_sim_sol.o \
+	$(NEVERBALL_DIR)/share/image.o 
+PUTT_OBJS := \
+	$(NEVERBALL_DIR)/share/lang.o        \
+	$(NEVERBALL_DIR)/share/st_common.o   \
+	$(NEVERBALL_DIR)/share/vec3.o        \
+	$(NEVERBALL_DIR)/share/solid_base.o  \
+	$(NEVERBALL_DIR)/share/solid_vary.o  \
+	$(NEVERBALL_DIR)/share/solid_draw.o  \
+	$(NEVERBALL_DIR)/share/solid_all.o   \
+	$(NEVERBALL_DIR)/share/mtrl.o        \
+	$(NEVERBALL_DIR)/share/part.o        \
+	$(NEVERBALL_DIR)/share/geom.o        \
+	$(NEVERBALL_DIR)/share/ball.o        \
+	$(NEVERBALL_DIR)/share/base_config.o \
+	$(NEVERBALL_DIR)/share/config.o      \
+	$(NEVERBALL_DIR)/share/glext.o       \
+	$(NEVERBALL_DIR)/share/binary.o      \
+	$(NEVERBALL_DIR)/share/state.o       \
+	$(NEVERBALL_DIR)/share/gui.o         \
+	$(NEVERBALL_DIR)/share/font.o        \
+	$(NEVERBALL_DIR)/share/theme.o       \
+	$(NEVERBALL_DIR)/share/text.o        \
+	$(NEVERBALL_DIR)/share/common.o      \
+	$(NEVERBALL_DIR)/share/list.o        \
+	$(NEVERBALL_DIR)/share/fs_common.o   \
+	$(NEVERBALL_DIR)/share/fs_ov.o       \
+	$(NEVERBALL_DIR)/share/dir.o         \
+	$(NEVERBALL_DIR)/share/fbo.o         \
+	$(NEVERBALL_DIR)/share/glsl.o        \
+	$(NEVERBALL_DIR)/share/array.o       \
+	$(NEVERBALL_DIR)/share/log.o         \
+	$(NEVERBALL_DIR)/share/base_image.o  \
+	$(NEVERBALL_DIR)/putt/hud.o          \
+	$(NEVERBALL_DIR)/putt/game.o         \
+	$(NEVERBALL_DIR)/putt/hole.o         \
+	$(NEVERBALL_DIR)/putt/course.o       \
+	$(NEVERBALL_DIR)/putt/st_all.o       \
+	$(NEVERBALL_DIR)/putt/st_conf.o      \
+	$(NEVERBALL_DIR)/share/hmd_null.o    \
+	$(NEVERBALL_DIR)/share/solid_sim_sol.o \
+	$(NEVERBALL_DIR)/share/image.o \
+
+BALL_OBJS += $(NEVERBALL_DIR)/share/fs_stdio.o $(NEVERBALL_DIR)/share/miniz.o
+PUTT_OBJS += $(NEVERBALL_DIR)/share/fs_stdio.o $(NEVERBALL_DIR)/share/miniz.o
+MAPC_OBJS += $(NEVERBALL_DIR)/share/fs_stdio.o $(NEVERBALL_DIR)/share/miniz.o
+
+all: $(PROG_NAME).z64
+
+$(BUILD_DIR)/$(PROG_NAME).dfs: $(wildcard filesystem/*)
+$(BUILD_DIR)/$(PROG_NAME).elf: $(SRCS) $(BALL_OBJS)
+$(PROG_NAME).z64: N64_ROM_TITLE="$(PROG_NAME)"
+$(PROG_NAME).z64: $(BUILD_DIR)/$(PROG_NAME).dfs 
+
+clean:
+	rm -rf $(BUILD_DIR) $(PROG_NAME).z64
+
+make_data:
+	$(foreach f, $(wildcard $(NEVERBALL_DIR)/data/*/*.png), \
+	mkdir -p $(addprefix filesystem/,$(dir $f)); \
+	$(N64_ROOTDIR)/bin/mksprite 16 1 1 $f $(addsuffix .sprite, $(addprefix filesystem/,$(basename $f))); \
+	)
+	$(foreach f, $(wildcard $(NEVERBALL_DIR)/data/*/*/*.png), \
+	mkdir -p $(addprefix filesystem/,$(dir $f)); \
+	$(N64_ROOTDIR)/bin/mksprite 16 1 1 $f $(addsuffix .sprite, $(addprefix filesystem/,$(basename $f))); \
+	)
+	$(foreach f, $(wildcard $(NEVERBALL_DIR)/data/*/*/*/*.png), \
+	mkdir -p $(addprefix filesystem/,$(dir $f)); \
+	$(N64_ROOTDIR)/bin/mksprite 16 1 1 $f $(addsuffix .sprite, $(addprefix filesystem/,$(basename $f))); \
+	)
+
+-include $(wildcard $(BUILD_DIR)/*.d)
+
+.PHONY: all clean
