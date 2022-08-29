@@ -34,8 +34,8 @@ void joy_axis(int instance, int a, float v)
     (void) v;
 
     struct controller_data keys_down = get_keys_pressed();
-    float x = (float)(keys_down.c[0].x + 128) / 255.0f;
-    float y = (float)(keys_down.c[0].y + 128) / 255.0f;
+    float x = (float)(keys_down.c[0].x) / 128.0f;
+    float y = (float)(keys_down.c[0].y) / 128.0f;
     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), x);
     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), y);
 }
