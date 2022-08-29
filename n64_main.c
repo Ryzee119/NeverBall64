@@ -33,18 +33,11 @@ typedef struct sram_files_t
 } sram_files_t;
 int sramfs_init(sram_files_t *files, int num_files);
 
-#define MAX_SRAM_FILES 10
+#define MAX_SRAM_FILES 1
+//FIXME: Add scores probably - not worried about replays, screenshots or downloads
+//need to fix config_read and config_load functions if we want configs? probably not
 static sram_files_t sram_files[MAX_SRAM_FILES] = {
-    {"COSMO3.CFG", 256, 0},
-    {"COSMO3.SV1", 128, 0},
-    {"COSMO3.SV2", 128, 0},
-    {"COSMO3.SV3", 128, 0},
-    {"COSMO3.SV4", 128, 0},
-    {"COSMO3.SV5", 128, 0},
-    {"COSMO3.SV6", 128, 0},
-    {"COSMO3.SV7", 128, 0},
-    {"COSMO3.SV8", 128, 0},
-    {"COSMO3.SV9", 128, 0},
+    {"neverballrc", 4096, 0},
 };
 
 struct main_loop
