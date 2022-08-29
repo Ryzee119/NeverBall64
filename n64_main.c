@@ -104,7 +104,7 @@ static void step(void *data)
         uint32_t now = ticks();
         uint32_t dt = (now - mainloop->now);
 
-        if (0 < dt && dt < 1000)
+        //if (0 < dt && dt < 1000)
         {
             /* Step the game state. */
             st_timer(0.001f * dt);
