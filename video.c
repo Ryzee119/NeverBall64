@@ -47,6 +47,8 @@ void video_resize(int window_w, int window_h)
 {
     video.window_w = window_w;
     video.window_h = window_h;
+    video.device_w = video.window_w;
+    video.device_h = video.window_h;
     video.device_scale = (float) video.device_h / (float) video.window_h;
     glViewport(0, 0, video.device_w, video.device_h);    
 }
