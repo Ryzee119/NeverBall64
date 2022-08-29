@@ -19,11 +19,10 @@ CFLAGS += \
 	-I$(NEVERBALL_DIR)/ball \
 	-I$(NEVERBALL_DIR)/putt \
 	-In64/SDL -In64 \
-	-Og -DENABLE_NLS=0 \
+	-O3 -DENABLE_NLS=0 \
 
 SRCS = \
 	n64_main.o \
-	n64_sram.o \
 	video.o \
 	audio.o
 

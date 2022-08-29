@@ -25,24 +25,6 @@
 #include "st_level.h"
 #include "st_pause.h"
 
-typedef struct sram_files_t
-{
-    const char *name;
-    uint32_t size;
-    uint32_t offset; //Track position of the file cursor
-} sram_files_t;
-int sramfs_init(sram_files_t *files, int num_files);
-
-#define MAX_SRAM_FILES 4
-//FIXME: Add scores probably - not worried about replays, screenshots or downloads
-//need to fix config_read and config_load functions if we want configs? probably not
-static sram_files_t sram_files[MAX_SRAM_FILES] = {
-    {"Scores/easy.txt", 32768, 0},
-    {"Scores/medium.txt", 32768, 0},
-    {"Scores/hard.txt", 32768, 0},
-    {"Scores/neverballrc", 4096, 0},
-};
-
 struct main_loop
 {
     uint32_t now;
@@ -62,12 +44,10 @@ int main(void)
     dfs_init(DFS_DEFAULT_LOCATION);
     debug_init(DEBUG_FEATURE_LOG_ISVIEWER);
     timer_init();
-
     fs_init("rom:/neverball/data");
     config_paths("rom:/neverball/data");
 
     controller_init();
-    sramfs_init(sram_files, MAX_SRAM_FILES);
     config_init();
     config_load();
     lang_init();
