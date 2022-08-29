@@ -63,7 +63,7 @@ int main(void)
     fs_init("rom:/neverball/data");
     config_paths("rom:/neverball/data");
 
-    joy_init();
+    controller_init();
     config_init();
     config_load();
     lang_init();
@@ -85,8 +85,27 @@ int main(void)
 
 static int loop(void)
 {
-    joy_button(0, 0, 0);
-    joy_axis(0, 0, 0);
+    struct controller_data keys_down, keys_up, keys;
+    float x, y;
+    controller_scan();
+
+    keys_down = get_keys_down();
+    keys_up = get_keys_up();
+    keys = get_keys_pressed();
+
+    if (keys_down.c[0].A) st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
+    if (keys_down.c[0].B) st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_B), 1);
+    if (keys_down.c[0].start) st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_START), 1);
+
+    if (keys_up.c[0].A) st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
+    if (keys_up.c[0].B) st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_B), 0);
+    if (keys_up.c[0].start) st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_START), 0);
+
+    x = (float)(keys.c[0].x) / 128.0f;
+    y = (float)(keys.c[0].y) / 128.0f;
+    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), x);
+    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), y);
+
     return 1;
 }
 

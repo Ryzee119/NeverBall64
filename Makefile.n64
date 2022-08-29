@@ -25,8 +25,7 @@ SRCS = \
 	n64_main.o \
 	n64_sram.o \
 	video.o \
-	audio.o \
-	joy.o \
+	audio.o
 
 MAPC_OBJS := \
 	$(NEVERBALL_DIR)/share/vec3.o        \
