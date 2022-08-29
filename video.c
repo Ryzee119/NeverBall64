@@ -114,7 +114,6 @@ int  video_perf(void)
 void video_swap(void)
 {
     int dt;
-    fprintf(stderr, "SWAP!\n");
     gl_swap_buffers();
 
     /* Accumulate time passed and frames rendered. */
