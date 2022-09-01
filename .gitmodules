@@ -3,5 +3,5 @@
 	url = https://github.com/Ryzee119/neverball.git
 [submodule "libdragon"]
 	path = libdragon
-	url = https://github.com/DragonMinded/libdragon
+	url = https://github.com/Ryzee119/libdragon
 	branch = trunk
